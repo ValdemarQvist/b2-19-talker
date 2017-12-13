@@ -44,7 +44,7 @@ add_executable(talker src/talker.cpp)
 target_link_libraries (talker ${catkin_LIBRARIES})
 add_dependencies(talker exam1_generate_message_cpp)
 
-add_executable(listener src/listener.cpp)
+add_executable(listener src/listener1.cpp)
 target_link_libraries (listener ${catkin_LIBRARIES})
 add_dependencies(listener exam1_generate_message_cpp)
 

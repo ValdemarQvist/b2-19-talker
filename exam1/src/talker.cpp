@@ -7,7 +7,7 @@ using namespace std;
 
 // Topic messages callback
 //pose_callback
-void pose_callback(const turtlesim::Pose& msgIn){
+void UI(){
 
 int option;
 
@@ -22,27 +22,64 @@ int option;
 
      switch(option)
      {
-        case '1': cout << '1';
+        case '1':
+        std_msgs::String msg;
+
+    std::stringstream ss;
+    ss=1;
+    msg.data = ss.str();
+
+    ROS_INFO("%s", msg.data.c_str());
          break;
-         case '2': cout << '2';
+         case '2':
+         std_msgs::String msg;
+
+     std::stringstream ss;
+     ss=2;
+     msg.data = ss.str();
+
+     ROS_INFO("%s", msg.data.c_str());
          break;
-         case '3': cout << '3';
+         case '3':
+         std_msgs::String msg;
+
+     std::stringstream ss;
+     ss=3;
+     msg.data = ss.str();
+
+     ROS_INFO("%s", msg.data.c_str());
         break;
-         case '4': cout << '4';
+         case '4':
+         std_msgs::String msg;
+
+     std::stringstream ss;
+     ss=4;
+     msg.data = ss.str();
+
+     ROS_INFO("%s", msg.data.c_str());
           break;
         }
-return 0;
+    pub1.publish(msg);
+    ros::spinOnce();    
+return;
 }
 
 int main(int argc, char **argv)
 {
  ros::init(argc, argv, "talker");
  ros::NodeHandle node;
+ ros::Publisher pub1;
 
-    ros::Subscriber subscriber_pose=node.subscribe("turtle1/pose", 1, pose_callback);
+ pub1 = node.advertise<std_msgs::String>("Commands", 1);
+
+
+
     // Enter a loop.
     while(ros::ok());
     ros::spin();
+
+UI();
+
 
     return 0;
 }
