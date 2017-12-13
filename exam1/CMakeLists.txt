@@ -6,10 +6,13 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   turtlesim
-
+  geometry_msgs
+  message_generation
+  std_msgs
 )
 
 find_package(catkin REQUIRED)
+
 
 add_message_files(
 DIRECTORY
@@ -22,13 +25,15 @@ string_msg_talker.msg
 
 
 
-
 catkin_package(
 
 CATKIN_DEPENDS
+std_msgs
 roscpp
 rospy
 turtlesim
+geometry_msgs
+message_generation
 
 )
 

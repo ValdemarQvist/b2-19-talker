@@ -3,6 +3,7 @@
 #include <sstream>
 #include "turtlesim/Pose.h"
 #include <iostream>
+#include "std_msgs/String.h"
 ros::Publisher pub;
 ros::Subscriber pose_subscriber;
 ros::Subscriber UI;
@@ -15,7 +16,7 @@ bool done = false;
 int xr;	// x coordinate of the turtle in turtlesim
 int yr;	// y coordinate of the turtle in turtlesim
 int dr;	// looking direction of the turtle in turtlesim
-int ans;
+string ans;
 void cirkle();
 void square();
 void poseCallback(const turtlesim::Pose::ConstPtr& msg)
@@ -30,8 +31,8 @@ void poseCallback(const turtlesim::Pose::ConstPtr& msg)
 }
 void chatterCallback(const std_msgs::String::ConstPtr& msg)
 {
-	ans = msg->x;
-  ROS_INFO("I heard:[%i]", ans);
+	ans = msg->data;
+  ROS_INFO("I heard:[%s]", ans);
 
 
 
@@ -41,16 +42,16 @@ void chatterCallback(const std_msgs::String::ConstPtr& msg)
 
 
   ros::NodeHandle n;
-	ros::Subscriber sub = n.subscribe("Commands", 1000, chatterCallback);
-  pose_subscriber = n.subscribe("/turtle1/pose",100 , poseCallback);
+	ros::Subscriber sub = n.subscribe("Commands", 10, chatterCallback);
+  pose_subscriber = n.subscribe("/turtle1/pose",10 , poseCallback);
   pub = n.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 1);
   ros::Rate rate(10);
   while(ros::ok()){
 
-if(ans == 1) {
+if(ans == "1") {
 cirkle();
 }
-else if(ans == 2){
+else if(ans == "2"){
  square();
 }
 else
