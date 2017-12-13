@@ -1,2 +1,2 @@
 string name # Name of object
-float x # Which object has been chosen
+int x # Which object has been chosen
