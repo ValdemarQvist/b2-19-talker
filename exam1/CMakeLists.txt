@@ -1,51 +1,38 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(exam1)
-
+add_compile_options(-std=c++11)
 #find other catkin packages.
 find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  rospy
-  turtlesim
-
+roscpp
+rospy
+geometry_msgs
+turtlesim
+message_generation
+std_msgs
 )
 
 find_package(catkin REQUIRED)
 
-add_message_files(
-DIRECTORY
-msg
-FILES
-string_msg_talker.msg
-
-)
-
-
-
-
-
 catkin_package(
 
 CATKIN_DEPENDS
-roscpp
-rospy
-turtlesim
+  roscpp
+  rospy
+  geometry_msgs
+  turtlesim
+  message_generation
+  std_msgs
 
 )
-
-
-
 
 include_directories(
 ${catkin_INCLUDE_DIRS}
 )
 
+add_executable(UI_turtlesim_mover_node src/talker.cpp)
+target_link_libraries (UI_turtlesim_mover_node ${catkin_LIBRARIES})
+add_dependencies(UI_turtlesim_mover_node exam1_generate_message_cpp)
 
-add_executable(talker src/talker.cpp)
-target_link_libraries (talker ${catkin_LIBRARIES})
-add_dependencies(talker exam1_generate_message_cpp)
-
-add_executable(listener src/listener1.cpp)
-target_link_libraries (listener ${catkin_LIBRARIES})
-add_dependencies(listener exam1_generate_message_cpp)
-
-
+add_executable(turtlesim_mover_node src/listener1.cpp)
+target_link_libraries (turtlesim_mover_node ${catkin_LIBRARIES})
+add_dependencies(turtlesim_mover_node exam1_generate_message_cpp)
