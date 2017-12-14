@@ -70,13 +70,6 @@ int main(int argc, char**argv){
   pub = n.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 1);
   pub1 = n.advertise<std_msgs::String>("Done", 1);
 
-	if(ans == "1") {
-		cirkle();
-	}
-	else if(ans == "2"){
- 		square();
-	}
-	else
 
 	while(ros::ok())
 		{
