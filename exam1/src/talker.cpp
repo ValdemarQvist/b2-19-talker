@@ -18,10 +18,9 @@ void UI(){
   int option;
   cout << "Introduction to what the user can do here"<<endl;
   cout << "Choose one of the following options:"<<endl;
-  cout << "Press 1 for square " <<endl;
-  cout << "Press 2 for circle " <<endl;
-  cout << "Press 3 for star " <<endl;
-  cout << "Press 4 for triangle" <<endl;
+  cout << "Press 1 for circle " <<endl;
+  cout << "Press 2 for square " <<endl;
+  cout << "Press 3 for random walk" <<endl;
   option = 0;
     cin >> option;
 
@@ -43,12 +42,8 @@ void UI(){
           msg.data = ss.str();
           break;
 
-          case (4):
-          ss << "4";
-          msg.data = ss.str();
-          break;
           }
-
+          ans = 0;
         pub1.publish(msg);
         ros::spinOnce();
     return;
@@ -59,7 +54,7 @@ void doneCallback(const std_msgs::String::ConstPtr& data){
 }
 int main(int argc, char **argv)
 {
- ros::init(argc, argv, "talker");
+ ros::init(argc, argv, "UI");
 
  ros::NodeHandle node;
 

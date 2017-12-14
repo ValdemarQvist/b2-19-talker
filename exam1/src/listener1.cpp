@@ -63,7 +63,7 @@ void chatterCallback(const std_msgs::String::ConstPtr& data){
 
 int main(int argc, char**argv){
 
-	ros::init(argc, argv, "publish_velocity");
+	ros::init(argc, argv, "Mover");
 
 	ros::NodeHandle n;
 
@@ -72,7 +72,7 @@ int main(int argc, char**argv){
   pub = n.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 1);
   pub1 = n.advertise<std_msgs::String>("Done", 1);
 
-	ros::Rate rate(10);
+	ros::Rate rate(100);
 
 	while(ros::ok())
 		{
@@ -104,6 +104,7 @@ int main(int argc, char**argv){
 void circle(){
  	while (dr < 35900)
 	{
+		ros::Rate rate(1000);
 			geometry_msgs::Twist msg;
 			msg.linear.x = 1;
 			msg.angular.z = 1;
