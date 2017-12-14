@@ -3,25 +3,37 @@ project(exam1)
 add_compile_options(-std=c++11)
 #find other catkin packages.
 find_package(catkin REQUIRED COMPONENTS
-roscpp
-rospy
-geometry_msgs
-turtlesim
-message_generation
-std_msgs
+  roscpp
+  rospy
+  turtlesim
+  geometry_msgs
+  message_generation
+  std_msgs
 )
 
 find_package(catkin REQUIRED)
 
+
+add_message_files(
+DIRECTORY
+msg
+FILES
+string_msg_talker.msg
+
+)
+
+
+
+
 catkin_package(
 
 CATKIN_DEPENDS
-  roscpp
-  rospy
-  geometry_msgs
-  turtlesim
-  message_generation
-  std_msgs
+std_msgs
+roscpp
+rospy
+turtlesim
+geometry_msgs
+message_generation
 
 )
 

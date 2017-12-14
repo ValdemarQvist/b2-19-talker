@@ -3,6 +3,7 @@
 #include "std_msgs/String.h"
 #include <sstream>
 using namespace std;
+ros::Publisher pub1;
 
 ros::Publisher pub1;
 ros::Subscriber sub1;
@@ -61,7 +62,7 @@ int main(int argc, char **argv)
  ros::init(argc, argv, "talker");
 
  ros::NodeHandle node;
- ros::Publisher pub1;
+
 
  pub1 = node.advertise<std_msgs::String>("Commands", 1);
 
