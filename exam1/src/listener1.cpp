@@ -23,6 +23,7 @@ string ans;
 void randomwalk();
 void cirkle();
 void square();
+
 void needNew(){
 
 	std_msgs::String msg;
@@ -33,6 +34,7 @@ void needNew(){
 	ros::spinOnce();
 	return;
 }
+
 void moving(){
 
 	std_msgs::String msg;
@@ -50,15 +52,14 @@ void poseCallback(const turtlesim::Pose::ConstPtr& msg){
 	dr = ((msg->theta*180)/PI)*100;
   ROS_INFO("x: [%i], y: [%i] looking: [%i]", xr, yr, dr);
 
-
-
 }
 
 
 void chatterCallback(const std_msgs::String::ConstPtr& data){
 	ans = data->data;
-  ROS_INFO("I heard:[%s]", ans);
+  //ROS_INFO("I heard:[%s]", ans);
 }
+
 int main(int argc, char**argv){
 
 	ros::init(argc, argv, "publish_velocity");
@@ -70,6 +71,7 @@ int main(int argc, char**argv){
   pub = n.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 1);
   pub1 = n.advertise<std_msgs::String>("Done", 1);
 
+	ros::Rate rate(10);
 
 	while(ros::ok())
 		{
@@ -92,9 +94,9 @@ int main(int argc, char**argv){
 			else
 				needNew();
 			  ros::spinOnce();
-			  rate.sleep();
-		}
 
+		}
+		rate.sleep();
 		return 0;
 };
 
