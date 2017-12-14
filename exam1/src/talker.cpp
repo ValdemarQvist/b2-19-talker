@@ -1,14 +1,15 @@
 #include "ros/ros.h"
-#include <iostream>
 #include "std_msgs/String.h"
+#include <iostream>
 #include <sstream>
+
 using namespace std;
-ros::Publisher pub1;
+
 
 ros::Publisher pub1;
 ros::Subscriber sub1;
-// Topic messages callback
-//pose_callback
+
+
 string done;
 
 void UI(){
@@ -62,11 +63,6 @@ int main(int argc, char **argv)
  ros::init(argc, argv, "talker");
 
  ros::NodeHandle node;
-
-
- pub1 = node.advertise<std_msgs::String>("Commands", 1);
-
-
 
  pub1 = node.advertise<std_msgs::String>("Commands", 10);
  sub1 = node.subscribe("Done",100 , doneCallback);
