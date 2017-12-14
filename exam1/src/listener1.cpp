@@ -1,13 +1,16 @@
 #include "ros/ros.h"
 #include "geometry_msgs/Twist.h"
-#include <sstream>
 #include "turtlesim/Pose.h"
+#include "std_msgs/String.h"
 #include <iostream>
-ros::Publisher pub;
-ros::Subscriber pose_subscriber;
-ros::Subscriber UI;
+#include <sstream>
 
 using namespace std;
+
+ros::Publisher pub;
+ros::Publisher pub1;
+ros::Subscriber pose_subscriber;
+ros::Subscriber UI_sub;
 
 const double PI =3.14159265359;
 
@@ -15,11 +18,33 @@ bool done = false;
 int xr;	// x coordinate of the turtle in turtlesim
 int yr;	// y coordinate of the turtle in turtlesim
 int dr;	// looking direction of the turtle in turtlesim
-int ans;
+string ans;
+
+void randomwalk();
 void cirkle();
 void square();
-void poseCallback(const turtlesim::Pose::ConstPtr& msg)
-{
+void needNew(){
+
+	std_msgs::String msg;
+	stringstream ss;
+	ss << "I'am ready for your commad";
+	msg.data = ss.str();
+	pub1.publish(msg);
+	ros::spinOnce();
+	return;
+}
+void moving(){
+
+	std_msgs::String msg;
+	stringstream ss;
+	ss << "I'am moving";
+	msg.data = ss.str();
+	pub1.publish(msg);
+	ros::spinOnce();
+	return;
+}
+
+void poseCallback(const turtlesim::Pose::ConstPtr& msg){
 	xr = msg->x;
 	yr = msg->y;
 	dr = ((msg->theta*180)/PI)*100;
@@ -28,59 +53,69 @@ void poseCallback(const turtlesim::Pose::ConstPtr& msg)
 
 
 }
-void chatterCallback(const std_msgs::String::ConstPtr& msg)
-{
-	ans = msg->x;
-  ROS_INFO("I heard:[%i]", ans);
 
-
-
+void chatterCallback(const std_msgs::String::ConstPtr& data){
+	ans = data->data;
+  ROS_INFO("I heard:[%s]", ans);
 }
-  int main(int argc, char**argv){
-  ros::init(argc, argv, "publish_velocity");
+int main(int argc, char**argv){
 
+	ros::init(argc, argv, "publish_velocity");
 
-  ros::NodeHandle n;
-	ros::Subscriber sub = n.subscribe("Commands", 1000, chatterCallback);
+	ros::NodeHandle n;
+
+	UI_sub = n.subscribe("Commands", 1000, chatterCallback);
   pose_subscriber = n.subscribe("/turtle1/pose",100 , poseCallback);
   pub = n.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 1);
-  ros::Rate rate(10);
-  while(ros::ok()){
+  pub1 = n.advertise<std_msgs::String>("Done", 1);
 
-if(ans == 1) {
-cirkle();
-}
-else if(ans == 2){
- square();
-}
-else
+	ros::Rate rate(10);
 
-  ros::spinOnce();
-  rate.sleep();
-  }
-return 0;
+	while(ros::ok())
+		{
+
+			if(ans == "1") {
+				moving();
+				cirkle();
+
+			}
+			else if(ans == "2"){
+				moving();
+			  square();
+
+			}
+			else if(ans == "3"){
+				randomwalk();
+			  square();
+
+			}
+			else
+				needNew();
+			  ros::spinOnce();
+			  rate.sleep();
+		}
+
+		return 0;
 };
 
-	void cirkle(){
- 	while (dr < 35900) {
-
-
+void cirkle(){
+ 	while (dr < 35900)
+	{
 			geometry_msgs::Twist msg;
 			msg.linear.x = 1;
 			msg.angular.z = 1;
 			pub.publish(msg);
 			ros::spinOnce();
-		}
-return;
+	}
+	return;
 };
 
 
-	void square(){
-bool d= false;
-
-		for(int i = 0; 1 > i; i++) {
-ros::Rate rate(10);
-
+void square(){
+	bool d= false;
+	ros::Rate rate(1000);
+		for(int i = 0; 1 > i; i++)
+		{
 				while(xr != 10 && done ==false) {
 					geometry_msgs::Twist msg;
 					msg.linear.x = 1;
@@ -153,5 +188,20 @@ ros::Rate rate(10);
 				rate.sleep();
 				d = true;
 		}
-return;
+		return;
 };
+void randomwalk(){
+	int count = 0;
+	srand (time(NULL));
+	while(count < 20){
+		geometry_msgs::Twist msg;
+		msg.linear.x =(double)(rand() % 10 +1)/4.0;
+		msg.angular.z =(double)(rand() % 10 - 5)/2.0;
+		pub.publish(msg);
+		ros::spinOnce();
+		count++;
+
+	}
+
+	return;
+}
