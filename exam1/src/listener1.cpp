@@ -7,23 +7,23 @@
 
 using namespace std;
 
-ros::Publisher pub;
-ros::Publisher pub1;
-ros::Subscriber pose_subscriber;
-ros::Subscriber UI_sub;
+ros::Publisher pub;	//declaring a publisher
+ros::Publisher pub1;	//declaring a publisher
+ros::Subscriber pose_subscriber;  //declaring a Subscriber
+ros::Subscriber UI_sub;//declaring a Subscriber
 
-const double PI =3.14159265359;
+const double PI =3.14159265359; // sets a constant for PI
 
-bool done = false;
+bool done = false; //helps stop the loop in func square
 int xr;	// x coordinate of the turtle in turtlesim
 int yr;	// y coordinate of the turtle in turtlesim
 int dr;	// looking direction of the turtle in turtlesim
 string ans;
 
-void randomwalk();
-void cirkle();
-void square();
-
+void randomwalk();//prototyping the function
+void cirkle();//prototyping the function
+void square();//prototyping the function
+// publishes on the topic "Done" and uses the std_msgs::String msg
 void needNew(){
 
 	std_msgs::String msg;
@@ -34,7 +34,7 @@ void needNew(){
 	ros::spinOnce();
 	return;
 }
-
+// publishes on the topic "Done" and uses the std_msgs::String msg
 void moving(){
 
 	std_msgs::String msg;
@@ -45,7 +45,8 @@ void moving(){
 	ros::spinOnce();
 	return;
 }
-
+//subscribes to the topic "/turtle1/pose" and updates xr,yr,dr
+//every time a new msg is published
 void poseCallback(const turtlesim::Pose::ConstPtr& msg){
 	xr = msg->x;
 	yr = msg->y;
@@ -53,8 +54,8 @@ void poseCallback(const turtlesim::Pose::ConstPtr& msg){
   ROS_INFO("x: [%i], y: [%i] looking: [%i]", xr, yr, dr);
 
 }
-
-
+//subscribes to the topic "Done" and updates xr,yr,dr 
+//every time a new msg is published
 void chatterCallback(const std_msgs::String::ConstPtr& data){
 	ans = data->data;
   //ROS_INFO("I heard:[%s]", ans);
