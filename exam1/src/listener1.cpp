@@ -21,7 +21,7 @@ int dr;	// looking direction of the turtle in turtlesim
 string ans;
 
 void randomwalk();//prototyping the function
-void cirkle();//prototyping the function
+void circle();//prototyping the function
 void square();//prototyping the function
 // publishes on the topic "Done" and uses the std_msgs::String msg
 void needNew(){
@@ -54,7 +54,7 @@ void poseCallback(const turtlesim::Pose::ConstPtr& msg){
   ROS_INFO("x: [%i], y: [%i] looking: [%i]", xr, yr, dr);
 
 }
-//subscribes to the topic "Done" and updates xr,yr,dr 
+//subscribes to the topic "Done" and updates xr,yr,dr
 //every time a new msg is published
 void chatterCallback(const std_msgs::String::ConstPtr& data){
 	ans = data->data;
@@ -79,7 +79,7 @@ int main(int argc, char**argv){
 
 			if(ans == "1") {
 				moving();
-				cirkle();
+				circle();
 
 			}
 			else if(ans == "2"){
@@ -101,7 +101,7 @@ int main(int argc, char**argv){
 		return 0;
 };
 
-void cirkle(){
+void circle(){
  	while (dr < 35900)
 	{
 			geometry_msgs::Twist msg;
