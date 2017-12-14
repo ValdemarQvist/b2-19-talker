@@ -13,18 +13,6 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(catkin REQUIRED)
 
-
-add_message_files(
-DIRECTORY
-msg
-FILES
-string_msg_talker.msg
-
-)
-
-
-
-
 catkin_package(
 
 CATKIN_DEPENDS
