@@ -43,7 +43,7 @@ void UI(){
           break;
 
           }
-          ans = 0;
+          option = 0;
         pub1.publish(msg);
         ros::spinOnce();
     return;
