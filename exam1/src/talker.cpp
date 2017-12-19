@@ -66,9 +66,9 @@ while(ros::ok())
 
   for(int i = 0; i < 5; i++)
       {
-      cout << done;
+      cout << done << "\n";
       UI();
-      cout << done;
+      cout << done<<"\n";
       ros::spinOnce();
       }
   }

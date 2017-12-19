@@ -72,54 +72,57 @@ int main(int argc, char**argv){
   pub = n.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 1);
   pub1 = n.advertise<std_msgs::String>("Done", 1);
 
-	ros::Rate rate(100);
+	ros::Rate rate(10);
 
 	while(ros::ok())
 		{
-
+			moving();
 			if(ans == "1") {
 				moving();
 				circle();
-
+				ros::spinOnce();
+				ans = "hej";
 			}
 			else if(ans == "2"){
 				moving();
 			  square();
-
+				ros::spinOnce();
+				ans = "hej";
 			}
 			else if(ans == "3"){
+				moving();
 				randomwalk();
-			  square();
-
+				ros::spinOnce();
+				ans = "hej";
 			}
 			else
 				needNew();
 			  ros::spinOnce();
 
 		}
+
 		rate.sleep();
 		return 0;
 };
 
 void circle(){
+	ros::Rate rate(1);
  	while (dr < 35900)
 	{
-		ros::Rate rate(1000);
+		ros::Rate rate(1);
 			geometry_msgs::Twist msg;
 			msg.linear.x = 1;
 			msg.angular.z = 1;
 			pub.publish(msg);
 			ros::spinOnce();
 	}
+	rate.sleep();
 	return;
 };
 
 
 void square(){
-	bool d= false;
-	ros::Rate rate(1000);
-		for(int i = 0; 1 > i; i++)
-		{
+	ros::Rate rate(1);
 				while(xr != 10 && done ==false) {
 					geometry_msgs::Twist msg;
 					msg.linear.x = 1;
@@ -182,19 +185,21 @@ void square(){
 					pub.publish(msg);
 					ros::spinOnce();
 				}
-				while(yr != 5 )  {
+				while(yr <= 5 )  {
 					geometry_msgs::Twist msg;
 					msg.linear.x =1;
 					pub.publish(msg);
 					ros::spinOnce();
 
 			  }
-				rate.sleep();
-				d = true;
-		}
+
+		rate.sleep();
 		return;
 };
+
+
 void randomwalk(){
+	ros::Rate rate(1);
 	int count = 0;
 	srand (time(NULL));
 	while(count < 20){
@@ -206,6 +211,6 @@ void randomwalk(){
 		count++;
 
 	}
-
+	rate.sleep();
 	return;
-}
+};
